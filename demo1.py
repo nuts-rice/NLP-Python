@@ -11,6 +11,19 @@ post0 = teenChat[422]
 print(post0.text)
 print(post0.get('class'))
 print(post0.get('user'))
+
+
+def conditional_freq_distrubution():
+cfd = nltk.ConditionalFreqDist((target)
+    for word in teenChat
+    for target in ['girl', 'boy']
+    if word.findall(target))
+cfd.plot()
+
+# def main():
+#     conditional_freq_distrubution()
+
+
 #
 #
 # def extract_features(post):

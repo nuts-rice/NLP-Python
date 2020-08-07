@@ -22,6 +22,7 @@ def generate_model(cfdist, word, num=15):
     for i in range(num):
         print(word, end=" ")
         word= cfdist[word].max()
+    print('\n')
 
 def main():
     postCount = len(teenChat)
@@ -30,10 +31,12 @@ def main():
     print(post0.text)
     print(post0.get('class'))
     print(post0.get('user'))
+    print("Printing generated model of text using 'sexy':")
+    generate_model(cfd, 'sexy')
+
     print("printing conditional frequency distribution")
     conditional_freq_distrubution()
-    print("Printing generated model of text:")
-    generate_model(cfd, 'sexy')
+
 
 if __name__ == '__main__':
     main()

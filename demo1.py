@@ -12,24 +12,27 @@ chatWords = nps.words("11-08-teens_706posts.xml")
 chatBigrams = nltk.bigrams(chatWords)
 cfd = nltk.ConditionalFreqDist(chatBigrams)
 maxConfidence = 100
+flagFile = open('flagList.txt')
+flagList = flagFile.read()
 
 
 
-def calculate_flags(flagList, num=15):
+
+def calculate_flags():
     flagNumber = 0
     tokens = nltk.word_tokenize(flagList)
+
     # TODO: using a list of flags to be determined,
     # iterate through posts to find instances of any flags
-    cfd = nltk.ConditionalFreqDist((target, fileid[:10])
+    cfd = nltk.ConditionalFreqDist((str(tokens), fileid[:10])
         for fileid in nps.fileids()
-        for posts in nps.words(fileid)
-        for tokens in [flagList]
-
-        if posts.lower().startswith(tokens))
-
-    print("printing tokens within flaglist" + str(tokens))
+        for posts in nps.words(fileid))
+        #you need a check if len(samples) < 1
+        #you don't need to use a format specifier to get string length
+    print("printing flagList " + str(tokens))
     #problem here with "max() arg is an empty sequence" if we try to .tabulate()
-    cfd.tabulate()
+    cfd.plot()
+
 
 
 # def calculate_confidence_index(flagCount, timeElapsed):
@@ -65,9 +68,10 @@ def main():
     print("Reading in flag list")
     flagFile = open('flagList.txt')
     rawFlag = flagFile.read()
-    print("printing max of flaglist: " + max(rawFlag))
+    print("printing length of flaglist: " + str(len(rawFlag)))
     print("Calculating number of flags within chats")
-    calculate_flags(rawFlag)
+    print("type of flagList = " + str(type(flagList)))
+    calculate_flags()
 
     print("printing conditional frequency distribution")
     conditional_freq_distrubution()

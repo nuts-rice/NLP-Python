@@ -26,10 +26,14 @@ def calculate_flags():
     # iterate through posts to find instances of any flags
     cfd = nltk.ConditionalFreqDist((str(tokens), fileid[:10])
         for fileid in nps.fileids()
-        for posts in nps.words(fileid))
+        for posts in nps.words(fileid)
+        for target in [tokens]
         #you need a check if len(samples) < 1
         #you don't need to use a format specifier to get string length
+        if posts.lower().startswith(str(tokens)))
     print("printing flagList " + str(tokens))
+
+
     #problem here with "max() arg is an empty sequence" if we try to .tabulate()
     cfd.plot()
 

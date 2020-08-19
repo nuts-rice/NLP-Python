@@ -24,23 +24,48 @@ def calculate_flags():
 
     # TODO: using a list of flags to be determined,
     # iterate through posts to find instances of any flags
-    cfd = nltk.ConditionalFreqDist((str(tokens), fileid[:10])
+    cfd = nltk.ConditionalFreqDist((tokens, fileid[:10])
         for fileid in nps.fileids()
         for posts in nps.words(fileid)
         for target in [tokens]
         #you need a check if len(samples) < 1
         #you don't need to use a format specifier to get string length
-        if posts.lower().startswith(str(tokens)))
+        if posts.lower().startswith(str(target)))
     print("printing flagList " + str(tokens))
+    print("cfd values: " + str(cfd.keys()))
 
 
     #problem here with "max() arg is an empty sequence" if we try to .tabulate()
+    cfd.tabulate(cumulative = True)
+
+
+
+# I think that we could use the already annotated corpus of this 
+# parts of speech should act as a measure of eagerness and wanting to 
+# find out about potential victims 
+# we should use OOP design patterns to determine posts
+# what would also work would be a function of flagged phrases along with time elapsed
+# frequency of posts could work as well.
+
+def calculate_confidence_index():
+    cfd = nltk.ConditionalFreqDist((target, fileid[:10])
+        for fileid in nps.fileids()
+        for posts in nps.xml_posts(fileid)
+        for target in ['ynQuestion']
+        if (posts.get('class') == 'ynQuestion'))
     cfd.plot()
 
 
+    # if(flagCount != 0 && timeElapsed != 0)
+    # {
 
-# def calculate_confidence_index(flagCount, timeElapsed):
+    
+    # }else{
 
+    
+    # }
+    print("Printing confidence index as a function"
+        "of flagCount and timeElapsed")
 
 def conditional_freq_distrubution():
     cfd = nltk.ConditionalFreqDist((target, fileid[:10])
@@ -66,8 +91,8 @@ def main():
     print(post0.get('class'))
     print(post0.get('user'))
 
-    print("Printing generated model of text using 'sexy':")
-    generate_model(cfd, 'sexy')
+    print("Printing generated model of text using 'boys':")
+    generate_model(cfd, 'boys')
 
     print("Reading in flag list")
     flagFile = open('flagList.txt')
@@ -75,7 +100,10 @@ def main():
     print("printing length of flaglist: " + str(len(rawFlag)))
     print("Calculating number of flags within chats")
     print("type of flagList = " + str(type(flagList)))
-    calculate_flags()
+    #calculate_flags()
+
+    calculate_confidence_index()
+    
 
     print("printing conditional frequency distribution")
     conditional_freq_distrubution()
